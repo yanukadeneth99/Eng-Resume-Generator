@@ -1,14 +1,6 @@
-# **Sri Lanka Institute of Information Technology**
-
-![](RackMultipart20230220-1-ro1561_html_38b9bdbbee12374e.png)
-
 # **Ideation, MVP Scope and Tech Stack**
 
-## **SE5100 - Rapid Application Development**
-
-2023-02-20
-
-# Table of Contents
+## Table of Contents
 
 [Group Details](#_ap68i7win36b)
 
@@ -42,9 +34,8 @@
 
 [Technology Stack](#_z1xt7bihjldv)
 
-#
 
-# Group Details
+## Group Details
 
 - MS23003132 - Akila Kasun Siriwardana
 - MS23006966 - Malaka Silva
@@ -52,7 +43,7 @@
 - MS23046320 - Tavish Perera
 - MS23001534 - Eesha Wickramasinghe
 
-# Idea Specification
+## Idea Specification
 
 We propose a CV Generator specifically for Engineers and Developers. This will be a Web-based application which builds a space for Engineers to show their portfolio of projects and skills in the hope of impressing a potential employer.
 
@@ -62,15 +53,13 @@ When the CV that a developer uses to apply for jobs does not highlight the neces
 
 There are several existing services and applications that allow similar capability, namely, NovoResume, CV Maker, Resume Help, Canva and more. However, these are catered towards general use and not for engineers in specific.
 
-# Target Audience
+## Target Audience
 
 Our primary audience targets engineers and developers who are starting out in their journey. However, this application can be used by any engineer having different levels of experience.
 
 Since we are targeting beginner engineers, our main goal is to make sure they use the application as smoothly as possible. Furthermore, we want to ensure that we keep them on track throughout the journey by providing them with certain tips they can use for their benefit.
 
-#
-
-# MVP Scope
+## MVP Scope
 
 These are the main features that will exist in the application :
 
@@ -110,9 +99,9 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - Total Created CVs
 - Page Load time
 
-# User Stories & Use-case Scenarios
+## User Stories & Use-case Scenarios
 
-## User Stories
+### User Stories
 
 1. As a CV generator user, I want to protect my personal information, therefore I can register and activate MFA inside the application.
 2. As a new user, I want to be able to easily input my education information into the CV generator application, so that I can quickly create a professional-looking CV.
@@ -122,11 +111,9 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 6. As a CV generator user,, I want the CV generator application to have a feature that allows me to include any coursework or academic projects that are relevant to the job position I'm applying for, so that I can showcase my skills and knowledge.
 7. As a CV generator user, I want the CV generator application to have a feature that allows me to export my CV in PDF format so that I can easily share it with potential employers and recruiters.
 
-##
+### Use Cases
 
-## Use Cases
-
-### Use Case 01
+#### Use Case 01
 
 | Use Case       | Create an account and activate the MFA                                 |
 | -------------- | ---------------------------------------------------------------------- |
@@ -148,9 +135,7 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User can protect their information.
   |
 
-###
-
-### Use Case 02
+#### Use Case 02
 
 | Use Case       | Inputting Education into CV Generator Application                                                          |
 | -------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -174,7 +159,7 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User can easily generate a professional-looking CV by using the application.
   |
 
-### Use Case 03
+#### Use Case 03
 
 | Use Case       | Multiple Templates for CV Generator      |
 | -------------- | ---------------------------------------- |
@@ -194,19 +179,8 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User has successfully generated a CV with the decided theme.
   |
 
-###
 
-###
-
-###
-
-###
-
-###
-
-###
-
-### Use Case 04
+#### Use Case 04
 
 | Use Case       | Highlighting Extracurricular Activities and Volunteer Work in CV Generator                                                                            |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -230,11 +204,8 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User's leadership and teamwork skills are showcased effectively in the updated CV.
   |
 
-###
 
-###
-
-### Use Case 05
+#### Use Case 05
 
 | Use Case       | Include Professional References in CV Generator Application                             |
 | -------------- | --------------------------------------------------------------------------------------- |
@@ -253,15 +224,8 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User's CV includes a section for professional references that can be easily accessed by potential employers for recommendations.
   |
 
-###
 
-###
-
-###
-
-###
-
-### Use Case 06
+#### Use Case 06
 
 | Use Case       | Adding Skills and Accomplishments in CV Generator                                   |
 | -------------- | ----------------------------------------------------------------------------------- |
@@ -284,9 +248,8 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User's CV includes a section for the summary of skills and accomplishments, allowing potential employers to quickly understand the employee's strengths and qualifications.
   |
 
-###
 
-### Use Case 07
+#### Use Case 07
 
 | Use Case       | Inclusion of Relevant Coursework and Academic Projects in CV Generator Application                                   |
 | -------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -308,11 +271,8 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User has successfully included their relevant academic projects and coursework in the CV and can showcase their skills and knowledge to potential employers.
   |
 
-###
 
-###
-
-### Use Case 08
+#### Use Case 08
 
 | Use Case       | Export CV in PDF format                                                         |
 | -------------- | ------------------------------------------------------------------------------- |
@@ -334,7 +294,7 @@ Basic KPIs on the web application will be extracted out to decide the future of 
 - The User has successfully exported and shared their CV in PDF format.
   |
 
-# Technology Stack
+## Technology Stack
 
 For this project, the technology stack we are planning to use is the **MERN stack** as it provides an easier and efficient way to implement professional grade web applications.
 
