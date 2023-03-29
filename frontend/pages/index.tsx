@@ -3,6 +3,7 @@ import { NextPage } from "next";
 
 // Components
 import Header from "@/components/Header";
+import Hero from "@/components/Hero";
 
 const Home: NextPage = () => {
   return (
@@ -18,7 +19,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      {/* Header */}
       <Header />
+
+      {/* First Section */}
+      <Hero />
 
       <main>
         <h1>Hello World!</h1>
