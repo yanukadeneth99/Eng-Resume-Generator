@@ -1,45 +1,79 @@
 import { NextComponentType } from "next";
+import Image from "next/image";
 
 const Hero: NextComponentType = () => {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="w-3/4 h-full bg-red-500 flex flex-row justify-center items-center">
-        {/* Text Section Left */}
-        <div className="basis-3/5 bg-blue-500 flex flex-col justify-center items-center p-12 space-y-12">
-          {/* Heading */}
-          <h1 className="text-5xl font-bold">
-            Build the resume that lands you jobs
-          </h1>
-
-          {/* Texts */}
-          <div className="flex flex-col space-y-8">
-            <p>
+    <div
+      style={{ height: "calc(100vh - 340px)" }}
+      className="mt-[120px] relative bg-primaryBg theme-blue theme"
+    >
+      <Image
+        priority
+        src="/images/shapes/shape1.svg"
+        height={417}
+        width={108}
+        alt={"shape 1"}
+        className="absolute left-0"
+        style={{ top: "-20px" }}
+      />
+      <Image
+        priority
+        src="/images/shapes/shape2.svg"
+        height={417}
+        width={131}
+        alt={"shape 1"}
+        className="absolute right-0"
+        style={{ transform: "translate(0%, 20%)" }}
+      />
+      <Image
+        priority
+        src="/images/shapes/shape3.svg"
+        height={65}
+        width={351}
+        alt={"shape 1"}
+        className="absolute bottom-0 left-[50%]"
+        style={{ transform: "translate(-40%, 0%)" }}
+      />
+      <div className="px-28">
+        <div className="flex w-11/12 mx-auto">
+          <div className="flex flex-col items-center w-3/5">
+            <h1 className="text-6xl mt-6 font-sans text-primary">
+              Build the resume that lands you jobs
+            </h1>
+            <p className="text-justify text-[20px] mt-10 pe-20">
               Looking for a way to showcase your skills and projects as an
               engineer or developer? Look no further than our user-friendly
               platform. Our innovative approach to CV generation allows you to
               easily input your information and generate a visually stunning and
               professional CV to help you stand out from the crowd.{" "}
             </p>
-
-            <p>
+            <p className="text-justify text-[20px] mt-5 pe-20">
               Our platform is designed specifically with engineers and
               developers in mind, ensuring that your CV accurately highlights
               your unique skill set and achievements. With a range of
               customizable templates and easy-to-use design tools, you can
-              create a CV that truly represents you and your experience.
+              create a CV that truly represents you and your experience.{" "}
             </p>
-
-            <p>
-              Dont let generic CV formats hold you back any longer. Join the
+            <p className="text-justify text-[20px] mt-5 pe-20">
+              Don't let generic CV formats hold you back any longer. Join the
               many satisfied users who have already created standout CVs with
               our web application. Start generating your professional CV today!
             </p>
+            <button className="bg-primary border-2 border-primary text-white rounded-full w-64 py-2 uppercase">
+              Get Started
+            </button>
           </div>
-        </div>
-
-        {/* Images Here */}
-        <div className="basis-2/5 flex justify-center items-center">
-          Images Here
+          <div className="flex-none w-2/5">
+            <Image
+              priority
+              src="/images/Group 2018.png"
+              height={659}
+              width={450}
+              alt={"CVs"}
+              style={{ maxWidth: "400px" }}
+              className="mx-auto mt-8"
+            />
+          </div>
         </div>
       </div>
     </div>

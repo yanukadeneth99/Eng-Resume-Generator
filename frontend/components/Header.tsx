@@ -10,7 +10,7 @@ import MenuItems from "./Header/MenuItems";
 const Header: NextComponentType = () => {
   return (
     // Full Header
-    <div className="w-full flex flex-row p-3 shadow-lg">
+    <div className="w-full absolute top-0 bg-primaryBgWhite h-[120px] flex flex-row p-3 shadow-lg z-10 theme-blue theme">
       {/* Logo 20% */}
       <div className="basis-3/12 flex justify-center items-center">
         <Image src={RLogo} alt="Logo" />
@@ -25,8 +25,8 @@ const Header: NextComponentType = () => {
 
       {/* Buttons 20% */}
       <div className="basis-3/12 flex justify-center items-center space-x-8">
-        <button className="bg-blue-500 p-2 px-4">Login</button>
-        <button className="bg-blue-500 p-2 px-4">Sign Up</button>
+        <button className="bg-primaryBgWhite border-2 border-primary text-primary rounded-full w-32 py-2">Login</button>
+        <button className="bg-primary border-2 border-primary text-white rounded-full w-32 py-2">Sign Up</button>
       </div>
     </div>
   );

@@ -8,7 +8,16 @@ module.exports = {
     // Or if using `src` directory:
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primaryBg: "var(--primaryBg)",
+        primary: "var(--primary)",
+        primaryBgWhite: "var(--primaryBgWhite)",
+      },
+      fontFamily: {
+        sans: ["Poppins", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

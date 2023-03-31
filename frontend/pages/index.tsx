@@ -16,6 +16,10 @@ const Home: NextPage = () => {
           content="Generate your resumes for developers free online"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Poppins"
+          rel="stylesheet"
+        ></link>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -24,10 +28,6 @@ const Home: NextPage = () => {
 
       {/* First Section */}
       <Hero />
-
-      <main>
-        <h1>Hello World!</h1>
-      </main>
     </>
   );
 };

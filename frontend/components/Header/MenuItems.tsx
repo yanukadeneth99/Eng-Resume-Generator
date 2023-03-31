@@ -3,10 +3,10 @@ import { NextComponentType } from "next";
 const MenuItems: NextComponentType = () => {
   return (
     <>
-      <li>Home</li>
-      <li>Services</li>
-      <li>Contact Us</li>
-      <li>FAQ</li>
+      <li className="font-sans uppercase text-[20px]">Home</li>
+      <li className="font-sans uppercase text-[20px]">Services</li>
+      <li className="font-sans uppercase text-[20px]">Contact Us</li>
+      <li className="font-sans uppercase text-[20px]">FAQ</li>
     </>
   );
 };
