@@ -55,9 +55,10 @@ const Hero: NextComponentType = () => {
               create a CV that truly represents you and your experience.{" "}
             </p>
             <p className="text-justify text-[20px] mt-5 pe-20">
-              Don't let generic CV formats hold you back any longer. Join the
-              many satisfied users who have already created standout CVs with
-              our web application. Start generating your professional CV today!
+              Don&apos;t let generic CV formats hold you back any longer. Join
+              the many satisfied users who have already created standout CVs
+              with our web application. Start generating your professional CV
+              today!
             </p>
             <button className="bg-primary border-2 border-primary text-white rounded-full w-64 py-2 uppercase">
               Get Started
