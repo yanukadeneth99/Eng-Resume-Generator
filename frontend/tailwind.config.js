@@ -12,7 +12,9 @@ module.exports = {
       colors: {
         primaryBg: "var(--primaryBg)",
         primary: "var(--primary)",
+        primaryBgDark: "var(--primaryBgDark)",
         primaryBgWhite: "var(--primaryBgWhite)",
+        primaryBgShapes: "var(--primaryBgShapes)",
       },
       fontFamily: {
         sans: ["Poppins", "sans-serif"],

@@ -23,10 +23,13 @@
   --color-primary: #005bce;
   --color-white: #ffffff;
   --color-black: #000000;
+  --color-bg-dark: #20325B;
 }
 
 .theme {
   --primaryBg: var(--color-bg);
+  --primaryBgDark: var(--color-bg-dark);
   --primaryBgWhite: var(--color-white);
-  --primary: var(--color-primary)
+  --primary: var(--color-primary);
+  --primaryBgShapes: var(--color-shapes);
 }
