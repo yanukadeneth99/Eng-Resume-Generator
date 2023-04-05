@@ -30,7 +30,7 @@ const OurServices: NextComponentType = () => {
             represents you and your experience.
           </p>
           <p className="mt-5 text-[20px]">
-            Don't let generic CV formats hold you back any longer. Join the many
+            Don&apos;t let generic CV formats hold you back any longer. Join the many
             satisfied users who have already created standout CVs with our web
             application. Start generating your professional CV today!
           </p>
