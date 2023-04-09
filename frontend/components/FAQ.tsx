@@ -40,7 +40,7 @@ const FAQ: NextComponentType = () => {
             </div>
             {isFAQ2Open && (
               <div className="mt-4 ms-4 text-gray-500">
-                - Unfortunately, we're only allowing cv export function to
+                - Unfortunately, we&apos;re only allowing cv export function to
                 export PDFs.
               </div>
             )}
