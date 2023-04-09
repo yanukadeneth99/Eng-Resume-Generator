@@ -7,6 +7,7 @@ import Hero from "@/components/Hero";
 import OurServices from "@/components/OurServices";
 import CustomerFeedbacks from "@/components/CustomerFeedbacks";
 import ContactUs from "@/components/ContactUs";
+import FAQ from "@/components/FAQ";
 
 const Home: NextPage = () => {
   return (
@@ -31,6 +32,7 @@ const Home: NextPage = () => {
       <hr className="w-[70vw] mx-auto border-2 border-[#d9d9d9]" />
       <CustomerFeedbacks />
       <ContactUs />
+      <FAQ />
     </>
   );
 };
