@@ -8,6 +8,7 @@ import OurServices from "@/components/OurServices";
 import CustomerFeedbacks from "@/components/CustomerFeedbacks";
 import ContactUs from "@/components/ContactUs";
 import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
 
 const Home: NextPage = () => {
   return (
@@ -33,6 +34,7 @@ const Home: NextPage = () => {
       <CustomerFeedbacks />
       <ContactUs />
       <FAQ />
+      <Footer />
     </>
   );
 };

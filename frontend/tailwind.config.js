@@ -19,6 +19,9 @@ module.exports = {
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
       },
+      backgroundImage: {
+        "footer-texture": "url('/images/shapes/footer-shapes.png')",
+      },
     },
   },
   plugins: [],
