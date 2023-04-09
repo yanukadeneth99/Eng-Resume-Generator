@@ -38,7 +38,7 @@ const ContactUs: NextComponentType = () => {
           ></textarea>
           <br />
           <div className="flex justify-center">
-            <button className="text-uppercase bg-primary text-white p-2 rounded-lg ">
+            <button className="text-uppercase bg-primary text-white p-2 px-4 rounded-full">
               <div className="flex flex-column">
                 <span className="me-2">Submit</span>
                 <Image
