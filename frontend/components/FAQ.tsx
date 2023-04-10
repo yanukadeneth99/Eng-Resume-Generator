@@ -11,7 +11,7 @@ const FAQ: NextComponentType = () => {
   const [isFAQ5Open, setIsFAQ5Open] = useState(false);
 
   return (
-    <div className="theme-blue theme w-[80vw] mx-auto font-sans mb-20">
+    <div id="faq" className="theme-blue theme w-[80vw] mx-auto font-sans mb-20">
       <h1 className="text-6xl mt-6 text-primary font-bold">FAQ</h1>
       <div className="flex mt-8">
         <div className="flex-none w-3/5 pe-32">

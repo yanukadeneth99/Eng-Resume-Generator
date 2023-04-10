@@ -1,5 +1,6 @@
 import { NextComponentType } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // Logo
 import RLogo from "../public/images/logo.png";
@@ -8,6 +9,8 @@ import RLogo from "../public/images/logo.png";
 import MenuItems from "./Header/MenuItems";
 
 const Header: NextComponentType = () => {
+  const router = useRouter();
+
   return (
     // Full Header
     <div className="w-full absolute top-0 bg-primaryBgWhite h-[120px] flex flex-row p-3 shadow-lg z-10 theme-blue theme">
@@ -25,8 +28,15 @@ const Header: NextComponentType = () => {
 
       {/* Buttons 20% */}
       <div className="basis-3/12 flex justify-center items-center space-x-8">
-        <button className="bg-primaryBgWhite border-2 border-primary text-primary rounded-full w-32 py-2">Login</button>
-        <button className="bg-primary border-2 border-primary text-white rounded-full w-32 py-2">Sign Up</button>
+        <button
+          className="bg-primaryBgWhite border-2 border-primary text-primary rounded-full w-32 py-2"
+          onClick={() => router.push("/login")}
+        >
+          Login
+        </button>
+        <button className="bg-primary border-2 border-primary text-white rounded-full w-32 py-2">
+          Sign Up
+        </button>
       </div>
     </div>
   );

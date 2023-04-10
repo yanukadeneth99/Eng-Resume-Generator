@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const OurServices: NextComponentType = () => {
   return (
-    <div className="theme-blue theme w-[80vw] mx-auto font-sans">
+    <div id="services" className="theme-blue theme w-[80vw] mx-auto font-sans">
       <h1 className="text-6xl mt-6 text-primary font-bold">Our Services</h1>
       <div className="flex">
         <div className="flex-none w-2/5">
