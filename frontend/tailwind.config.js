@@ -21,6 +21,7 @@ module.exports = {
       },
       backgroundImage: {
         "footer-texture": "url('/images/shapes/footer-shapes.png')",
+        "login-texture": "url('/images/shapes/login-shapes.png')",
       },
     },
   },
