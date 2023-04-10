@@ -106,7 +106,13 @@ const Login: NextPage = () => {
           </form>
           <p className="text-center mt-6 text-[#444B59] text-[18px]">
             I don&apos;t have an account ?
-            <span className="text-primary"> Sign up</span>
+            <span
+              className="text-primary cursor-pointer"
+              onClick={() => router.push("/sign-up")}
+            >
+              {" "}
+              Sign up
+            </span>
           </p>
           <div className="flex items-center mt-20">
             <hr className="border-[1px] border-primaryBg flex-grow mr-3" />

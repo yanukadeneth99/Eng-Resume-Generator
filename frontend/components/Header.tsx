@@ -34,7 +34,10 @@ const Header: NextComponentType = () => {
         >
           Login
         </button>
-        <button className="bg-primary border-2 border-primary text-white rounded-full w-32 py-2">
+        <button
+          className="bg-primary border-2 border-primary text-white rounded-full w-32 py-2"
+          onClick={() => router.push("/sign-up")}
+        >
           Sign Up
         </button>
       </div>
