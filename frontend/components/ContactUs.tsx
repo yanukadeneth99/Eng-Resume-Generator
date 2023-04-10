@@ -5,7 +5,7 @@ const ContactUs: NextComponentType = () => {
   return (
     <div className="theme theme-blue flex">
       <div className="w-1/2 flex-none bg-primaryBgDark px-60 py-8">
-        <h1 className="text-6xl my-6 text-white">Contact Us</h1>
+        <h1 className="text-6xl my-6 text-white font-bold">Contact Us</h1>
         <div className="bg-white py-16 px-12 rounded-2xl ">
           <label htmlFor="name" className="">
             Full Name

@@ -37,7 +37,7 @@ const Hero: NextComponentType = () => {
       <div className="px-28">
         <div className="flex w-11/12 mx-auto">
           <div className="flex flex-col items-center w-3/5">
-            <h1 className="text-6xl mt-6 font-sans text-primary">
+            <h1 className="text-6xl mt-6 font-sans text-primary font-bold">
               Build the resume that lands you jobs
             </h1>
             <p className="text-justify text-[20px] mt-10 pe-20">
