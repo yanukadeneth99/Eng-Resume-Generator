@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const CustomerFeedbacks: NextComponentType = () => {
   return (
-    <div id="customers" className="font-sans w-[70vw] mx-auto mb-6">
-      <h1 className="text-center text-3xl my-20 font-bold text-[#20325B]">
+    <div id="customers" className="font-sans w-[70vw] mx-auto mb-6 pb-20">
+      <h1 className="text-center text-3xl my-10 font-bold text-[#20325B] mt-20">
         What Our Custmers Say
       </h1>
       <div className="flex">

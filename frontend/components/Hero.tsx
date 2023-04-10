@@ -3,10 +3,7 @@ import Image from "next/image";
 
 const Hero: NextComponentType = () => {
   return (
-    <div
-      style={{ height: "calc(100vh - 340px)" }}
-      className="mt-[120px] relative bg-primaryBg theme-blue theme"
-    >
+    <div className="mt-[120px] relative bg-primaryBg theme-blue theme w-full h-full">
       <Image
         priority
         src="/images/shapes/shape1.svg"
@@ -60,7 +57,7 @@ const Hero: NextComponentType = () => {
               with our web application. Start generating your professional CV
               today!
             </p>
-            <button className="bg-primary border-2 border-primary text-white rounded-full w-64 py-2 uppercase">
+            <button className="bg-primary border-2 border-primary text-white rounded-full w-64 py-2 uppercase my-12">
               Get Started
             </button>
           </div>

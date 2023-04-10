@@ -29,11 +29,23 @@ const Home: NextPage = () => {
 
       {/* First Section */}
       <Hero />
+
+      {/* Second Section */}
       <OurServices />
+
+      {/* Divider */}
       <hr className="w-[70vw] mx-auto border-2 border-[#d9d9d9]" />
+
+      {/* Third Section */}
       <CustomerFeedbacks />
+
+      {/* Fourth Section */}
       <ContactUs />
+
+      {/* Fifth Section */}
       <FAQ />
+
+      {/* Footer */}
       <Footer />
     </>
   );
