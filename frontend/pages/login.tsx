@@ -110,7 +110,9 @@ const Login: NextPage = () => {
           </p>
           <div className="flex items-center mt-20">
             <hr className="border-[1px] border-primaryBg flex-grow mr-3" />
-            <span className="text-[#444B59] font-medium text-[18px]">or continue with</span>
+            <span className="text-[#444B59] font-medium text-[18px]">
+              or continue with
+            </span>
             <hr className="border-[1px] border-primaryBg flex-grow ml-3" />
           </div>
           <div className="grid grid-cols-3 w-full gap-12 mt-8">
