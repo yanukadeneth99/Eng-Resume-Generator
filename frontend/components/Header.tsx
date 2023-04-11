@@ -24,7 +24,7 @@ const Header: NextComponentType = () => {
 
   useEffect(() => {
     checkAuthenticated();
-  }, []);
+  }, [checkAuthenticated]);
 
   return (
     // Full Header

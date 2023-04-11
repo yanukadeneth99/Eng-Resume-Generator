@@ -10,7 +10,7 @@ const MenuItems: NextComponentType = () => {
 
   useEffect(() => {
     checkAuthenticated();
-  }, []);
+  }, [checkAuthenticated]);
 
   return (
     <>

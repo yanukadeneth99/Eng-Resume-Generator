@@ -8,7 +8,7 @@ const Hero: NextComponentType = () => {
   const { isAuthenticated, checkAuthenticated } = useAuth();
   useEffect(() => {
     checkAuthenticated();
-  }, []);
+  }, [checkAuthenticated]);
 
   return (
     <div className="mt-[120px] relative bg-primaryBg theme-blue theme w-full h-full">
