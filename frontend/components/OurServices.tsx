@@ -3,7 +3,10 @@ import Image from "next/image";
 
 const OurServices: NextComponentType = () => {
   return (
-    <div id="services" className="theme-blue theme w-[80vw] mx-auto font-sans">
+    <div
+      id="services"
+      className="theme-blue theme w-[80vw] mx-auto font-sans pt-8"
+    >
       <h1 className="text-6xl mt-6 text-primary font-bold">Our Services</h1>
       <div className="flex">
         <div className="flex-none w-2/5">
@@ -14,7 +17,7 @@ const OurServices: NextComponentType = () => {
             alt="Services"
           />
         </div>
-        <div className="flex-none w-3/5">
+        <div className="flex-none w-3/5 mt-12">
           <p className="mt-5 text-[20px]">
             Looking for a way to showcase your skills and projects as an
             engineer or developer? Look no further than our user-friendly
@@ -30,9 +33,9 @@ const OurServices: NextComponentType = () => {
             represents you and your experience.
           </p>
           <p className="mt-5 text-[20px]">
-            Don&apos;t let generic CV formats hold you back any longer. Join the many
-            satisfied users who have already created standout CVs with our web
-            application. Start generating your professional CV today!
+            Don&apos;t let generic CV formats hold you back any longer. Join the
+            many satisfied users who have already created standout CVs with our
+            web application. Start generating your professional CV today!
           </p>
         </div>
       </div>
