@@ -1,8 +1,16 @@
 import { NextComponentType } from "next";
 import { useRouter } from "next/router";
 
+import { useAuth } from "../../context/AuthContext";
+import { useEffect } from "react";
+
 const MenuItems: NextComponentType = () => {
   const router = useRouter();
+  const { isAuthenticated, checkAuthenticated } = useAuth();
+
+  useEffect(() => {
+    checkAuthenticated();
+  }, []);
 
   return (
     <>
@@ -30,6 +38,14 @@ const MenuItems: NextComponentType = () => {
       >
         FAQ
       </li>
+
+      {isAuthenticated ? (
+        <li className="font-sans uppercase text-[#ff0000] text-[20px] cursor-pointer">
+          Dashboard
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
 };

@@ -1,7 +1,15 @@
 import { NextComponentType } from "next";
 import Image from "next/image";
 
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+
 const Hero: NextComponentType = () => {
+  const { isAuthenticated, checkAuthenticated } = useAuth();
+  useEffect(() => {
+    checkAuthenticated();
+  }, []);
+
   return (
     <div
       style={{ height: "calc(100vh - 340px)" }}
@@ -60,9 +68,15 @@ const Hero: NextComponentType = () => {
               with our web application. Start generating your professional CV
               today!
             </p>
-            <button className="bg-primary border-2 border-primary text-white rounded-full w-64 py-2 uppercase">
-              Get Started
-            </button>
+            {isAuthenticated ? (
+              <button className="bg-[#FF0000] border-2 border-[#FF0000] text-white rounded-full w-64 py-2 uppercase">
+                Dashboard
+              </button>
+            ) : (
+              <button className="bg-primary border-2 border-primary text-white rounded-full w-64 py-2 uppercase">
+                Get Started
+              </button>
+            )}
           </div>
           <div className="flex-none w-2/5">
             <Image

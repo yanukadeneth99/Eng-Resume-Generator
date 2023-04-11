@@ -1,6 +1,9 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import useFirebaseAuth from "../lib/useFBAuth";
+import { useAuth } from "../context/AuthContext";
 
 // Logo
 import RLogo from "../public/images/logo.png";
@@ -10,7 +13,88 @@ import Google from "../public/images/icons/google.png";
 import Apple from "../public/images/icons/apple.png";
 
 const Login: NextPage = () => {
+  const {
+    _signInWithEmailAndPassword,
+    _signInWithGoogle,
+    _signInWithFacebook,
+  } = useFirebaseAuth();
   const router = useRouter();
+  const { login } = useAuth();
+
+  const onSubmit = (event: any) => {
+    let { email, password } = event.target;
+
+    _signInWithEmailAndPassword(email.value, password.value)
+      .then(async (authUser) => {
+        let token = await authUser?.user?.getIdToken();
+        login(token);
+
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    event.preventDefault();
+  };
+
+  const signInWithGoogle = () => {
+    _signInWithGoogle()
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+
+        login(token ? token : null);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+
+        console.log(
+          errorCode +
+            " || " +
+            errorMessage +
+            " || " +
+            email +
+            " || " +
+            credential
+        );
+      });
+  };
+
+  const signInWithFacebook = () => {
+    _signInWithFacebook()
+      .then((result) => {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential?.accessToken;
+
+        login(accessToken ? accessToken : null);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
+
+        console.log(
+          errorCode +
+            " || " +
+            errorMessage +
+            " || " +
+            email +
+            " || " +
+            credential
+        );
+      });
+  };
 
   return (
     <div className="flex w-screen theme-blue theme font-sans">
@@ -58,7 +142,7 @@ const Login: NextPage = () => {
           <h1 className="text-5xl text-center font-semibold mt-8 mb-16 text-primary">
             Log in
           </h1>
-          <form action="" method="post">
+          <form onSubmit={onSubmit}>
             <label htmlFor="email" className="text-[20px]">
               Email
             </label>
@@ -122,14 +206,20 @@ const Login: NextPage = () => {
             <hr className="border-[1px] border-primaryBg flex-grow ml-3" />
           </div>
           <div className="grid grid-cols-3 w-full gap-12 mt-8">
-            <div className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer">
+            <div
+              className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer"
+              onClick={signInWithGoogle}
+            >
               <Image
                 src={Google}
                 alt="Sign in with Google"
                 className="mx-auto"
               />
             </div>
-            <div className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer">
+            <div
+              className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer"
+              onClick={signInWithFacebook}
+            >
               <Image
                 src={Facebook}
                 alt="Sign in with Facebook"

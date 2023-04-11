@@ -1,6 +1,9 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import useFirebaseAuth from "../lib/useFBAuth";
+import { useAuth } from "../context/AuthContext";
 
 // Logo
 import RLogo from "../public/images/logo.png";
@@ -8,9 +11,99 @@ import LoginImage from "../public/images/login.png";
 import Facebook from "../public/images/icons/facebook.png";
 import Google from "../public/images/icons/google.png";
 import Apple from "../public/images/icons/apple.png";
+import { useState } from "react";
 
 const SignUp: NextPage = () => {
+  const [cPwdError, setCPwdError] = useState("");
+
+  const {
+    _createUserWithEmailAndPassword,
+    _signInWithGoogle,
+    _signInWithFacebook,
+  } = useFirebaseAuth();
   const router = useRouter();
+  const { login } = useAuth();
+
+  const onSubmit = (event: any) => {
+    let { email, password, firstName, lastName, confirmPassword } =
+      event.target;
+
+    if (confirmPassword.value == password.value) {
+      _createUserWithEmailAndPassword(email.value, password.value)
+        .then((authUser) => {
+          console.log("Success. The user is created in firebase");
+          router.push("/login");
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else {
+      setCPwdError("Password does not match");
+    }
+
+    event.preventDefault();
+  };
+
+  const signInWithGoogle = () => {
+    _signInWithGoogle()
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+
+        login(token ? token : null);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+
+        console.log(
+          errorCode +
+            " || " +
+            errorMessage +
+            " || " +
+            email +
+            " || " +
+            credential
+        );
+      });
+  };
+
+  const signInWithFacebook = () => {
+    _signInWithFacebook()
+      .then((result) => {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential?.accessToken;
+
+        login(accessToken ? accessToken : null);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
+
+        console.log(
+          errorCode +
+            " || " +
+            errorMessage +
+            " || " +
+            email +
+            " || " +
+            credential
+        );
+      });
+  };
 
   return (
     <div className="flex w-screen theme-blue theme font-sans">
@@ -58,31 +151,31 @@ const SignUp: NextPage = () => {
           <h1 className="text-5xl text-center font-semibold mt-8 mb-16 text-primary">
             Sign Up
           </h1>
-          <form action="" method="post">
+          <form onSubmit={onSubmit} onError={() => {}}>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex-none">
-                <label htmlFor="first-name" className="text-[20px]">
+                <label htmlFor="firstName" className="text-[20px]">
                   First Name
                 </label>
                 <br />
                 <input
                   type="text"
-                  name="email"
-                  id="first-name"
-                  className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                  name="firstName"
+                  id="firstName"
+                  className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] mb-6 rounded-md p-1.5"
                   required
                 />
               </div>
               <div className="flex-none">
-                <label htmlFor="last-name" className="text-[20px]">
+                <label htmlFor="lastName" className="text-[20px]">
                   Last Name
                 </label>
                 <br />
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
-                  className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                  name="lastName"
+                  id="lastName"
+                  className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] mb-6 rounded-md p-1.5"
                   required
                 />
               </div>
@@ -95,7 +188,7 @@ const SignUp: NextPage = () => {
               type="email"
               name="email"
               id="email"
-              className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+              className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] mb-6 rounded-md p-1.5"
               required
             />
             <br />
@@ -106,20 +199,22 @@ const SignUp: NextPage = () => {
               type="password"
               name="password"
               id="password"
-              className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+              className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] mb-6 rounded-md p-1.5"
               required
             />
             <br />
-            <label htmlFor="confirm-password" className="text-[20px]">
+            <label htmlFor="confirmPassword" className="text-[20px]">
               Confirm Password
             </label>
             <input
               type="password"
-              name="confirm-password"
-              id="confirm-password"
-              className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+              name="confirmPassword"
+              id="confirmPassword"
+              className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] mb-6 rounded-md p-1.5"
+              onChange={() => setCPwdError("")}
               required
             />
+            <span className="text-sm text-red-600 mb-6">{cPwdError}</span>
             <br />
             <div className="flex justify-center mt-4">
               <button
@@ -156,14 +251,20 @@ const SignUp: NextPage = () => {
             <hr className="border-[1px] border-primaryBg flex-grow ml-3" />
           </div>
           <div className="grid grid-cols-3 w-full gap-12 mt-4">
-            <div className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer">
+            <div
+              className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer"
+              onClick={signInWithGoogle}
+            >
               <Image
                 src={Google}
                 alt="Sign in with Google"
                 className="mx-auto"
               />
             </div>
-            <div className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer">
+            <div
+              className="border-primaryBg rounded-xl py-4 border-2 cursor-pointer"
+              onClick={signInWithFacebook}
+            >
               <Image
                 src={Facebook}
                 alt="Sign in with Facebook"
