@@ -92,7 +92,7 @@ const Profile: NextPage = () => {
             </div>
             <div className="border-l px-12 h-full">
               <h1 className="text-4xl font-semibold mt-8 mb-8 text-primary">
-                Profile Picture
+                Update Your Picture
               </h1>
               <Image
                 src={DP}
