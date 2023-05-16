@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       </Head>
 
       {/* Header */}
-      <Header />
+      <Header isHome />
 
       {/* First Section */}
       <Hero />

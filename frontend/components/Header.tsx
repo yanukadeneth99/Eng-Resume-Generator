@@ -1,4 +1,4 @@
-import { NextComponentType } from "next";
+import { NextComponentType, NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaAngleDown } from "react-icons/fa";
@@ -13,7 +13,12 @@ import DP from "../public/images/dp.jpg";
 import MenuItems from "./Header/MenuItems";
 import { useEffect } from "react";
 
-const Header: NextComponentType = () => {
+interface PropType {
+  isHome: boolean;
+}
+
+const Header: NextPage<PropType> = (props) => {
+  const { isHome } = props;
   const router = useRouter();
   const { isAuthenticated, logout, checkAuthenticated } = useAuth();
 
@@ -37,7 +42,7 @@ const Header: NextComponentType = () => {
       {/* Menu Bar 60% */}
       <div className="basis-6/12 flex justify-center items-center">
         <ul className="w-full flex flex-row justify-start items-center space-x-8">
-          <MenuItems />
+          <MenuItems isHome={isHome} />
         </ul>
       </div>
 
@@ -57,6 +62,12 @@ const Header: NextComponentType = () => {
               <FaAngleDown className="text-[30px]" />
             </button>
             <div className="dropdown-content">
+              <div
+                className="drop-item cursor-pointer p-4"
+                onClick={() => router.push("/profile")}
+              >
+                Profile
+              </div>
               <div className="drop-item cursor-pointer p-4" onClick={signOut}>
                 Sign Out
               </div>
