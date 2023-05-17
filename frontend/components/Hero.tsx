@@ -1,10 +1,12 @@
 import { NextComponentType } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 
 const Hero: NextComponentType = () => {
+  const router = useRouter();
   const { isAuthenticated, checkAuthenticated } = useAuth();
   useEffect(() => {
     checkAuthenticated();
@@ -66,7 +68,10 @@ const Hero: NextComponentType = () => {
               today!
             </p>
             {isAuthenticated ? (
-              <button className="bg-[#FF0000] border-2 border-[#FF0000] text-white rounded-full w-64 py-2 uppercase my-12">
+              <button
+                className="bg-[#FF0000] border-2 border-[#FF0000] text-white rounded-full w-64 py-2 uppercase my-12"
+                onClick={() => router.push("/cv-wizard")}
+              >
                 Dashboard
               </button>
             ) : (

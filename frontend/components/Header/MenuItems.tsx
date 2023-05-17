@@ -1,4 +1,4 @@
-import { NextComponentType, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { useAuth } from "../../context/AuthContext";
@@ -50,7 +50,10 @@ const MenuItems: NextPage<PropType> = ({ isHome }) => {
       )}
 
       {isAuthenticated ? (
-        <li className="font-sans uppercase text-[#ff0000] text-[20px] cursor-pointer">
+        <li
+          className="font-sans uppercase text-[#ff0000] text-[20px] cursor-pointer"
+          onClick={() => router.push("/cv-wizard")}
+        >
           Dashboard
         </li>
       ) : (
