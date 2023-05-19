@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlusCircle, FaTrash } from "react-icons/fa";
 
 interface PropType {
@@ -8,29 +8,64 @@ interface PropType {
   _afterValid: (data: any) => void;
 }
 
+type FormInputs = {
+  workExp: {
+    jobTitle: string;
+    employer: string;
+    startDate: Date;
+    endDate: Date;
+    crntWorkplace: string;
+    remarks: string;
+  }[];
+};
+
 const WorkDetails: NextPage<PropType> = ({
   currentStep,
   _prev,
   _afterValid,
 }) => {
-  const [workForms, setWorkForms] = useState([
-    Date.now().toString(36) + Math.random().toString(36).substr(2),
-  ]);
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>({
+    defaultValues: {
+      workExp: [
+        {
+          jobTitle: "",
+          employer: "",
+          startDate: new Date(),
+          endDate: new Date(),
+          crntWorkplace: "",
+          remarks: "",
+        },
+      ],
+    },
+    mode: "onBlur",
+  });
 
-  const _validate = () => {
-    _afterValid({ company: "Zebra" });
+  const { fields, append, remove } = useFieldArray({
+    name: "workExp",
+    control,
+  });
+
+  const _validate = (data: FormInputs) => {
+    _afterValid(data);
   };
 
   const addNewWorkExpForm = () => {
-    setWorkForms([
-      ...workForms,
-      Date.now().toString(36) + Math.random().toString(36).substr(2),
-    ]);
+    append({
+      jobTitle: "",
+      employer: "",
+      startDate: new Date(),
+      endDate: new Date(),
+      crntWorkplace: "",
+      remarks: "",
+    });
   };
 
-  const deleteForm = (key: string) => {
-    setWorkForms(workForms.filter((v) => v !== key));
-  };
+  const onSubmit = (data: FormInputs) => _validate(data);
 
   if (currentStep == 2) {
     return (
@@ -38,114 +73,91 @@ const WorkDetails: NextPage<PropType> = ({
         <h1 className="text-4xl font-semibold mt-8 mb-8 text-primary">
           Work Experience
         </h1>
-
-        {workForms.map((v) => {
-          return (
-            <form
-              key={v}
-              onSubmit={() => {}}
-              className="border-b border-gray-300 mb-8 relative"
-              data-x={v}
-            >
+        <form onSubmit={handleSubmit(onSubmit)} className="mb-8 relative">
+          {fields.map((field, index) => {
+            return (
               <div
-                className="absolute right-[-30px] top-[-10px] cursor-pointer bg-[white] shadow p-2 rounded-md"
-                onClick={() => deleteForm(v)}
+                key={field.id}
+                className="border-b border-gray-300 mb-8 relative"
               >
-                <FaTrash />
-              </div>
+                <div
+                  className="absolute right-[-30px] top-[-10px] cursor-pointer bg-[white] shadow p-2 rounded-md"
+                  onClick={() => remove(index)}
+                >
+                  <FaTrash />
+                </div>
 
-              <label htmlFor={v + "_jobTitle"} className="text-[20px]">
-                Job Title
-              </label>
-              <input
-                type="text"
-                name={v + "_jobTitle"}
-                id={v + "_jobTitle"}
-                className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
-                required
-              />
-              <br />
-              <label htmlFor={v + "_employer"} className="text-[20px]">
-                Employer
-              </label>
-              <input
-                type="text"
-                name={v + "_employer"}
-                id={v + "_employer"}
-                className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
-                required
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex-none">
-                  <label htmlFor={v + "_startDate"} className="text-[20px]">
-                    Start Date
-                  </label>
-                  <br />
-                  <input
-                    type="date"
-                    name={v + "_startDate"}
-                    id={v + "_startDate"}
-                    className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
-                    required
-                  />
+                <label className="text-[20px]">Job Title</label>
+                <input
+                  type="text"
+                  {...register(`workExp.${index}.jobTitle` as const)}
+                  className="w-full text-[20px] border-primarෆy opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                />
+                <br />
+                <label className="text-[20px]">Employer</label>
+                <input
+                  type="text"
+                  {...register(`workExp.${index}.employer` as const)}
+                  className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                  required
+                />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex-none">
+                    <label className="text-[20px]">Start Date</label>
+                    <br />
+                    <input
+                      type="date"
+                      {...register(`workExp.${index}.startDate` as const)}
+                      className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                      required
+                    />
+                  </div>
+                  <div className="flex-none">
+                    <label className="text-[20px]">End Date</label>
+                    <br />
+                    <input
+                      type="date"
+                      {...register(`workExp.${index}.endDate` as const)}
+                      className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="flex-none">
-                  <label htmlFor={v + "_endDate"} className="text-[20px]">
-                    End Date
-                  </label>
-                  <br />
-                  <input
-                    type="date"
-                    name={v + "_endDate"}
-                    id={v + "_endDate"}
-                    className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
-                    required
-                  />
-                </div>
+                <input
+                  type="checkbox"
+                  {...register(`workExp.${index}.crntWorkplace` as const)}
+                  className="text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 me-4 p-1.5"
+                  required
+                />
+                <label className="text-[20px]">I currently work here</label>
+                <br />
+                <label className="text-[20px]">Remarks</label>
+                <textarea
+                  {...register(`workExp.${index}.remarks` as const)}
+                  cols={20}
+                  rows={5}
+                  className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+                ></textarea>
               </div>
-              <input
-                type="checkbox"
-                name={v + "_crntWorkplace"}
-                id={v + "_crntWorkplace"}
-                className="text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 me-4 p-1.5"
-                required
-              />
-              <label htmlFor={v + "_crntWorkplace"} className="text-[20px]">
-                I currently work here
-              </label>
-              <br />
-              <label htmlFor={v + "_remarks"} className="text-[20px]">
-                Remarks
-              </label>
-              <textarea
-                name={v + "_remarks"}
-                id={v + "_remarks"}
-                cols={20}
-                rows={5}
-                className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
-              ></textarea>
-            </form>
-          );
-        })}
+            );
+          })}
+          <button className="bg-primary border-2 px-12 uppercase relative float-right border-primary text-white rounded-full w-fit py-2">
+            Next
+          </button>
+          <button
+            className="border-2 px-12 uppercase relative float-right border-primary text-primary rounded-full w-fit py-2 me-4"
+            onClick={_prev}
+          >
+            Back
+          </button>
+        </form>
+
         <button
           className="flex flex-row items-center gap-2 text-primary"
           onClick={addNewWorkExpForm}
         >
           <FaPlusCircle />
           Add more work experience
-        </button>
-
-        <button
-          className="bg-primary border-2 px-12 uppercase relative float-right border-primary text-white rounded-full w-fit py-2"
-          onClick={_validate}
-        >
-          Next
-        </button>
-        <button
-          className="border-2 px-12 uppercase relative float-right border-primary text-primary rounded-full w-fit py-2 me-4"
-          onClick={_prev}
-        >
-          Back
         </button>
       </div>
     );

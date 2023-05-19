@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { useForm } from "react-hook-form";
 
 interface PropType {
   currentStep: number;
@@ -6,14 +7,38 @@ interface PropType {
   _afterValid: (data: any) => void;
 }
 
+interface PersonalDetailsType {
+  firstName: string;
+  lastName: string;
+  profession: string;
+  phone: string;
+  email: string;
+  address: string;
+  abtYourself: string;
+}
+
 const PersonalDetails: NextPage<PropType> = ({
   currentStep,
   _prev,
   _afterValid,
 }) => {
-  const _validate = () => {
-    _afterValid({ name: "Malaka" });
+  const { register, handleSubmit } = useForm<PersonalDetailsType>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      profession: "",
+      phone: "",
+      email: "",
+      address: "",
+      abtYourself: "",
+    },
+  });
+
+  const _validate = (data: PersonalDetailsType) => {
+    _afterValid({ personalDetails: data });
   };
+
+  const onSubmit = (data: PersonalDetailsType) => _validate(data);
 
   if (currentStep == 1) {
     return (
@@ -21,7 +46,7 @@ const PersonalDetails: NextPage<PropType> = ({
         <h1 className="text-4xl font-semibold mt-8 mb-8 text-primary">
           Personal Details
         </h1>
-        <form onSubmit={() => {}}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex-none">
               <label htmlFor="firstName" className="text-[20px]">
@@ -30,8 +55,8 @@ const PersonalDetails: NextPage<PropType> = ({
               <br />
               <input
                 type="text"
-                name="firstName"
                 id="firstName"
+                {...register("firstName")}
                 className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 required
               />
@@ -43,7 +68,7 @@ const PersonalDetails: NextPage<PropType> = ({
               <br />
               <input
                 type="text"
-                name="lastName"
+                {...register("lastName")}
                 id="lastName"
                 className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 required
@@ -55,7 +80,7 @@ const PersonalDetails: NextPage<PropType> = ({
           </label>
           <input
             type="text"
-            name="profession"
+            {...register("profession")}
             id="profession"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -66,7 +91,7 @@ const PersonalDetails: NextPage<PropType> = ({
           </label>
           <input
             type="text"
-            name="phone"
+            {...register("phone")}
             id="phone"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -77,7 +102,7 @@ const PersonalDetails: NextPage<PropType> = ({
           </label>
           <input
             type="email"
-            name="email"
+            {...register("email")}
             id="email"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -88,7 +113,7 @@ const PersonalDetails: NextPage<PropType> = ({
           </label>
           <input
             type="text"
-            name="address"
+            {...register("address")}
             id="address"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -98,20 +123,19 @@ const PersonalDetails: NextPage<PropType> = ({
             About yourself
           </label>
           <textarea
-            name="abtYourself"
+            {...register("abtYourself")}
             id="abtYourself"
             cols={20}
             rows={5}
             className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
           ></textarea>
+          <button
+            type="submit"
+            className="bg-primary border-2 px-12 uppercase relative float-right border-primary text-white rounded-full w-fit py-2 "
+          >
+            Next
+          </button>
         </form>
-
-        <button
-          className="bg-primary border-2 px-12 uppercase relative float-right border-primary text-white rounded-full w-fit py-2 "
-          onClick={_validate}
-        >
-          Next
-        </button>
       </div>
     );
   } else {
