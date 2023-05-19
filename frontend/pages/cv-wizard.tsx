@@ -26,7 +26,6 @@ const CvWizard: NextPage = () => {
     }
 
     setData({ ...data, ...fData });
-    console.log({ ...data, ...fData });
   };
 
   let _prev = () => {

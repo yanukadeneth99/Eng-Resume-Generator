@@ -51,8 +51,9 @@ const SignUp: NextPage = () => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
+        let email = result?.user?.email || "";
 
-        login(token ? token : null);
+        login(token ? token : null, email);
       })
       .catch((error) => {
         // Handle Errors here.
@@ -82,8 +83,8 @@ const SignUp: NextPage = () => {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential?.accessToken;
-
-        login(accessToken ? accessToken : null);
+        let email = result?.user?.email || "";
+        login(accessToken ? accessToken : null, email);
       })
       .catch((error) => {
         // Handle Errors here.

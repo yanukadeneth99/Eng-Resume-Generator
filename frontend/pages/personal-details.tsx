@@ -1,3 +1,5 @@
+import { useAuth } from "@/context/AuthContext";
+import { savePersonalDetails } from "@/lib/personal-service";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 
@@ -7,11 +9,16 @@ interface PropType {
   _afterValid: (data: any) => void;
 }
 
-interface PersonalDetailsType {
+export interface PersonalDetailsType {
   firstName: string;
   lastName: string;
   profession: string;
   phone: string;
+  nic: string;
+  gender: string;
+  nationality: string;
+  marital_status: string;
+  dob: Date;
   email: string;
   address: string;
   abtYourself: string;
@@ -28,17 +35,25 @@ const PersonalDetails: NextPage<PropType> = ({
       lastName: "",
       profession: "",
       phone: "",
+      nic: "",
+      gender: "",
+      nationality: "",
+      marital_status: "",
+      dob: new Date(),
       email: "",
       address: "",
       abtYourself: "",
     },
   });
 
-  const _validate = (data: PersonalDetailsType) => {
+  const { user } = useAuth();
+
+  const _validate = (data: PersonalDetailsType, user: string) => {
     _afterValid({ personalDetails: data });
+    savePersonalDetails(data, user);
   };
 
-  const onSubmit = (data: PersonalDetailsType) => _validate(data);
+  const onSubmit = (data: PersonalDetailsType) => _validate(data, user);
 
   if (currentStep == 1) {
     return (
@@ -85,6 +100,64 @@ const PersonalDetails: NextPage<PropType> = ({
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
           />
+          <br />
+          <label htmlFor="nic" className="text-[20px]">
+            NIC
+          </label>
+          <input
+            type="text"
+            {...register("nic")}
+            id="nic"
+            className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+            required
+          />
+          <br />
+          <label htmlFor="nationality" className="text-[20px]">
+            Nationality
+          </label>
+          <input
+            type="text"
+            {...register("nationality")}
+            id="nationality"
+            className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+            required
+          />
+          <br />
+          <label htmlFor="dob" className="text-[20px]">
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            {...register("dob")}
+            id="dob"
+            className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+            required
+          />
+          <br />
+          <label htmlFor="gender" className="text-[20px]">
+            Gender
+          </label>
+          <select
+            {...register("gender")}
+            className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+          >
+            <option value="Other">Other</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+          </select>
+          <br />
+          <label htmlFor="marital_status" className="text-[20px]">
+            Marital Status
+          </label>
+          <select
+            {...register("marital_status")}
+            className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
+          >
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Widowed">Widowed</option>
+          </select>
           <br />
           <label htmlFor="phone" className="text-[20px]">
             Phone

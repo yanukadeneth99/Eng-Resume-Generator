@@ -3,16 +3,18 @@ import { useRouter } from "next/router";
 
 type authContextType = {
   token: string | null;
+  user: string;
   isAuthenticated: boolean;
-  login: (token: string | null) => void;
+  login: (token: string | null, user: string) => void;
   logout: () => void;
   checkAuthenticated: () => void;
 };
 
 const authContextDefaultValues: authContextType = {
   token: null,
+  user: "",
   isAuthenticated: false,
-  login: (token) => {},
+  login: (token, user) => {},
   logout: () => {},
   checkAuthenticated: () => {},
 };
@@ -22,13 +24,18 @@ const AuthContext = createContext<authContextType>(authContextDefaultValues);
 export function AuthProvider({ children }: any) {
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<string>("");
   const router = useRouter();
 
-  const login = (newToken: string | null) => {
+  const login = (newToken: string | null, user: string) => {
     //setToken(newToken);
-    if (newToken != null) localStorage.setItem("token", newToken);
+    if (newToken != null) {
+      setUser(user);
+      localStorage.setItem("token", newToken);
+    }
 
     if (newToken != null) {
+      setUser(user);
       router.push("/");
     }
   };
@@ -45,6 +52,7 @@ export function AuthProvider({ children }: any) {
 
   const value = {
     token,
+    user,
     isAuthenticated,
     login,
     logout,

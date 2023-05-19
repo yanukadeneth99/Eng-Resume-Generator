@@ -27,8 +27,10 @@ const Login: NextPage = () => {
 
     _signInWithEmailAndPassword(email.value, password.value)
       .then(async (authUser) => {
+        let email = authUser?.user?.email || "";
         let token = await authUser?.user?.getIdToken();
-        login(token);
+
+        login(token, email);
 
         router.push("/");
       })
@@ -43,9 +45,12 @@ const Login: NextPage = () => {
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
+        console.log(result);
+
+        let email = result?.user?.email || "";
         const token = credential?.accessToken;
 
-        login(token ? token : null);
+        login(token ? token : null, email);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -74,8 +79,9 @@ const Login: NextPage = () => {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential?.accessToken;
+        let email = result?.user?.email || "";
 
-        login(accessToken ? accessToken : null);
+        login(accessToken ? accessToken : null, email);
       })
       .catch((error) => {
         const errorCode = error.code;
