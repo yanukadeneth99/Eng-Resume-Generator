@@ -9,14 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf-viewer/core": "3.6.0",
+    "@react-pdf-viewer/default-layout": "3.6.0",
     "@types/node": "18.15.10",
     "@types/react": "18.0.30",
     "@types/react-dom": "18.0.11",
+    "axios": "^1.4.0",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "firebase": "^9.19.1",
     "next": "13.2.4",
+    "pdfjs-dist": "^2.15.349",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-icons": "^4.8.0",
     "typescript": "5.0.2"
   },
   "devDependencies": {
