@@ -48,3 +48,7 @@ export function saveEducationalDetails(
 export function getEducationalDetails(user: string) {
   return axios.get(`http://localhost:8000/edu-details/by-user/${user}`);
 }
+
+export function deleteEducationalDetails(docId: string) {
+  return axios.delete(`http://localhost:8000/edu-details/by-doc/${docId}`);
+}

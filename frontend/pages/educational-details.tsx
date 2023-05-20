@@ -1,4 +1,5 @@
 import {
+  deleteEducationalDetails,
   getEducationalDetails,
   saveEducationalDetails,
 } from "@/lib/education-service";
@@ -30,23 +31,28 @@ const EducationalDetails: NextPage<PropType> = ({
   _prev,
   _afterValid,
 }) => {
-  const { register, control, handleSubmit, reset } =
-    useForm<EducationalDetailsFormType>({
-      defaultValues: {
-        edu: [
-          {
-            docId: "",
-            school: "",
-            degree: "",
-            startDate: new Date(),
-            endDate: new Date(),
-            crntSchool: "",
-            remarks: "",
-          },
-        ],
-      },
-      mode: "onBlur",
-    });
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EducationalDetailsFormType>({
+    defaultValues: {
+      edu: [
+        {
+          docId: "",
+          school: "",
+          degree: "",
+          startDate: new Date(),
+          endDate: new Date(),
+          crntSchool: "",
+          remarks: "",
+        },
+      ],
+    },
+    mode: "onBlur",
+  });
 
   useEffect(() => {
     if (localStorage.getItem("user") != "") {
@@ -120,7 +126,10 @@ const EducationalDetails: NextPage<PropType> = ({
               >
                 <div
                   className="absolute right-[-30px] top-[-10px] cursor-pointer bg-[white] shadow p-2 rounded-md"
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    deleteEducationalDetails(field.docId);
+                    remove(index);
+                  }}
                 >
                   <FaTrash />
                 </div>
@@ -163,10 +172,20 @@ const EducationalDetails: NextPage<PropType> = ({
                     <br />
                     <input
                       type="date"
-                      {...register(`edu.${index}.endDate` as const)}
+                      {...register(`edu.${index}.endDate` as const, {
+                        validate: (endDate) => {
+                          return (
+                            new Date(field.startDate).getTime() <
+                            new Date(endDate).getTime()
+                          );
+                        },
+                      })}
                       className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                       required
                     />
+                    {errors.edu?.[index]?.endDate
+                      ? "End date must be after start date."
+                      : ""}
                   </div>
                 </div>
                 <input

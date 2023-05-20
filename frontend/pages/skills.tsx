@@ -1,4 +1,4 @@
-import { getSkills, saveSkills } from "@/lib/skills-service";
+import { deleteSkill, getSkills, saveSkills } from "@/lib/skills-service";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -87,7 +87,12 @@ const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
               >
                 <div
                   className="absolute right-[-30px] top-[-10px] cursor-pointer bg-[white] shadow p-2 rounded-md"
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    deleteSkill(field.docId)
+                      .then((res) => {})
+                      .catch((err) => console.log(err.message));
+                    remove(index);
+                  }}
                 >
                   <FaTrash />
                 </div>

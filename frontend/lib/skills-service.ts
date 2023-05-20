@@ -39,3 +39,7 @@ export function saveSkills(data: SkillsFormType, user: string) {
 export function getSkills(user: string) {
   return axios.get(`http://localhost:8000/skill-details/by-user/${user}`);
 }
+
+export function deleteSkill(docId: string) {
+  return axios.delete(`http://localhost:8000/skill-details/by-doc/${docId}`);
+}
