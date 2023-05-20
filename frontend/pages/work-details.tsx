@@ -1,4 +1,6 @@
+import { getWorkDetails, saveWorkDetails } from "@/lib/work-details-service";
 import { NextPage } from "next";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlusCircle, FaTrash } from "react-icons/fa";
 
@@ -8,8 +10,9 @@ interface PropType {
   _afterValid: (data: any) => void;
 }
 
-type FormInputs = {
+export type WorkDetailsFormType = {
   workExp: {
+    docId: string;
     jobTitle: string;
     employer: string;
     startDate: Date;
@@ -24,38 +27,65 @@ const WorkDetails: NextPage<PropType> = ({
   _prev,
   _afterValid,
 }) => {
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInputs>({
-    defaultValues: {
-      workExp: [
-        {
-          jobTitle: "",
-          employer: "",
-          startDate: new Date(),
-          endDate: new Date(),
-          crntWorkplace: "",
-          remarks: "",
-        },
-      ],
-    },
-    mode: "onBlur",
-  });
+  const { register, control, handleSubmit, reset } =
+    useForm<WorkDetailsFormType>({
+      defaultValues: {
+        workExp: [
+          {
+            docId: "",
+            jobTitle: "",
+            employer: "",
+            startDate: new Date(),
+            endDate: new Date(),
+            crntWorkplace: "",
+            remarks: "",
+          },
+        ],
+      },
+      mode: "onBlur",
+    });
 
   const { fields, append, remove } = useFieldArray({
     name: "workExp",
     control,
   });
 
-  const _validate = (data: FormInputs) => {
+  useEffect(() => {
+    let getData = async () => {
+      if (localStorage.getItem("user") != "") {
+        let res = await getWorkDetails(localStorage.getItem("user") || "");
+
+        reset({
+          workExp: res.data.map((v: any) => {
+            let startDate = v.period.split("/")[0].trim();
+            let endDate = v.period.split("/")[1].trim();
+
+            return {
+              docId: v.id,
+              jobTitle: v.job_title,
+              employer: v.company,
+              startDate,
+              endDate,
+              crntWorkplace: false,
+              remarks: v.remarks,
+            };
+          }),
+        });
+      }
+    };
+
+    getData();
+  }, [getWorkDetails]);
+
+  const _validate = (data: WorkDetailsFormType) => {
     _afterValid(data);
+    if (localStorage.getItem("user") != "")
+      saveWorkDetails(data, localStorage.getItem("user") || "");
   };
 
   const addNewWorkExpForm = () => {
     append({
+      docId: "",
       jobTitle: "",
       employer: "",
       startDate: new Date(),
@@ -65,7 +95,7 @@ const WorkDetails: NextPage<PropType> = ({
     });
   };
 
-  const onSubmit = (data: FormInputs) => _validate(data);
+  const onSubmit = (data: WorkDetailsFormType) => _validate(data);
 
   if (currentStep == 2) {
     return (
@@ -127,7 +157,6 @@ const WorkDetails: NextPage<PropType> = ({
                   type="checkbox"
                   {...register(`workExp.${index}.crntWorkplace` as const)}
                   className="text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 me-4 p-1.5"
-                  required
                 />
                 <label className="text-[20px]">I currently work here</label>
                 <br />
@@ -138,6 +167,10 @@ const WorkDetails: NextPage<PropType> = ({
                   rows={5}
                   className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 ></textarea>
+                <input
+                  type="hidden"
+                  {...register(`workExp.${index}.docId` as const)}
+                />
               </div>
             );
           })}

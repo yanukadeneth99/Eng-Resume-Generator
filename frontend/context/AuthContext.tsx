@@ -32,16 +32,20 @@ export function AuthProvider({ children }: any) {
     if (newToken != null) {
       setUser(user);
       localStorage.setItem("token", newToken);
+      localStorage.setItem("user", user);
     }
 
     if (newToken != null) {
       setUser(user);
+      localStorage.setItem("user", user);
       router.push("/");
     }
   };
 
   const logout = () => {
     setToken("");
+    setUser("");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
     localStorage.removeItem("token");
   };
