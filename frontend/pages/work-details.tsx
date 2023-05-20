@@ -31,23 +31,28 @@ const WorkDetails: NextPage<PropType> = ({
   _prev,
   _afterValid,
 }) => {
-  const { register, control, handleSubmit, reset } =
-    useForm<WorkDetailsFormType>({
-      defaultValues: {
-        workExp: [
-          {
-            docId: "",
-            jobTitle: "",
-            employer: "",
-            startDate: new Date(),
-            endDate: new Date(),
-            crntWorkplace: "",
-            remarks: "",
-          },
-        ],
-      },
-      mode: "onBlur",
-    });
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<WorkDetailsFormType>({
+    defaultValues: {
+      workExp: [
+        {
+          docId: "",
+          jobTitle: "",
+          employer: "",
+          startDate: new Date(),
+          endDate: new Date(),
+          crntWorkplace: "",
+          remarks: "",
+        },
+      ],
+    },
+    mode: "onBlur",
+  });
 
   const { fields, append, remove } = useFieldArray({
     name: "workExp",
@@ -99,7 +104,9 @@ const WorkDetails: NextPage<PropType> = ({
     });
   };
 
-  const onSubmit = (data: WorkDetailsFormType) => _validate(data);
+  const onSubmit = (data: WorkDetailsFormType) => {
+    _validate(data);
+  };
 
   if (currentStep == 2) {
     return (
@@ -156,10 +163,20 @@ const WorkDetails: NextPage<PropType> = ({
                     <br />
                     <input
                       type="date"
-                      {...register(`workExp.${index}.endDate` as const)}
+                      {...register(`workExp.${index}.endDate` as const, {
+                        validate: (endDate) => {
+                          return (
+                            new Date(field.startDate).getTime() <
+                            new Date(endDate).getTime()
+                          );
+                        },
+                      })}
                       className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                       required
                     />
+                    {errors.workExp?.[index]?.endDate
+                      ? "End date must be after start date."
+                      : ""}
                   </div>
                 </div>
                 <input
