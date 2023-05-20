@@ -1,4 +1,5 @@
 import {
+  deleteEducationalDetails,
   getEducationalDetails,
   saveEducationalDetails,
 } from "@/lib/education-service";
@@ -120,7 +121,10 @@ const EducationalDetails: NextPage<PropType> = ({
               >
                 <div
                   className="absolute right-[-30px] top-[-10px] cursor-pointer bg-[white] shadow p-2 rounded-md"
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    deleteEducationalDetails(field.docId);
+                    remove(index);
+                  }}
                 >
                   <FaTrash />
                 </div>

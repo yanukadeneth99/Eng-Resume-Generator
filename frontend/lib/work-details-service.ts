@@ -45,3 +45,7 @@ export function saveWorkDetails(data: WorkDetailsFormType, user: string) {
 export function getWorkDetails(user: string) {
   return axios.get(`http://localhost:8000/work-details/by-user/${user}`);
 }
+
+export function deleteWorkDetail(docId: string) {
+  return axios.delete(`http://localhost:8000/work-details/by-doc/${docId}`);
+}

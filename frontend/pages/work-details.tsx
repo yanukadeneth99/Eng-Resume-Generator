@@ -1,4 +1,8 @@
-import { getWorkDetails, saveWorkDetails } from "@/lib/work-details-service";
+import {
+  deleteWorkDetail,
+  getWorkDetails,
+  saveWorkDetails,
+} from "@/lib/work-details-service";
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -112,7 +116,12 @@ const WorkDetails: NextPage<PropType> = ({
               >
                 <div
                   className="absolute right-[-30px] top-[-10px] cursor-pointer bg-[white] shadow p-2 rounded-md"
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    deleteWorkDetail(field.docId)
+                      .then((res) => {})
+                      .catch((err) => console.log(err.message));
+                    remove(index);
+                  }}
                 >
                   <FaTrash />
                 </div>
