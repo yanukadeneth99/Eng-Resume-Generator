@@ -1,4 +1,9 @@
+import {
+  getEducationalDetails,
+  saveEducationalDetails,
+} from "@/lib/education-service";
 import { NextPage } from "next";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlusCircle, FaTrash } from "react-icons/fa";
 
@@ -8,8 +13,9 @@ interface PropType {
   _afterValid: (data: any) => void;
 }
 
-type FormInputs = {
+export type EducationalDetailsFormType = {
   edu: {
+    docId: string;
     school: string;
     degree: string;
     startDate: Date;
@@ -24,38 +30,70 @@ const EducationalDetails: NextPage<PropType> = ({
   _prev,
   _afterValid,
 }) => {
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInputs>({
-    defaultValues: {
-      edu: [
-        {
-          school: "",
-          degree: "",
-          startDate: new Date(),
-          endDate: new Date(),
-          crntSchool: "",
-          remarks: "",
-        },
-      ],
-    },
-    mode: "onBlur",
-  });
+  const { register, control, handleSubmit, reset } =
+    useForm<EducationalDetailsFormType>({
+      defaultValues: {
+        edu: [
+          {
+            docId: "",
+            school: "",
+            degree: "",
+            startDate: new Date(),
+            endDate: new Date(),
+            crntSchool: "",
+            remarks: "",
+          },
+        ],
+      },
+      mode: "onBlur",
+    });
+
+  useEffect(() => {
+    if (localStorage.getItem("user") != "") {
+      let getData = async () => {
+        let res = await getEducationalDetails(
+          localStorage.getItem("user") || ""
+        );
+
+        if (res.data != null) {
+          reset({
+            edu: res.data.map((v: any) => {
+              let startDate = v.period.split("/")[0].trim();
+              let endDate = v.period.split("/")[1].trim();
+
+              return {
+                docId: v.id,
+                school: v.institute,
+                degree: v.graduated,
+                startDate: startDate,
+                endDate: endDate,
+                crntSchool: false,
+                remarks: v.remarks,
+              };
+            }),
+          });
+        }
+      };
+
+      getData();
+    }
+  }, [getEducationalDetails]);
 
   const { fields, append, remove } = useFieldArray({
     name: "edu",
     control,
   });
 
-  const _validate = (data: FormInputs) => {
+  const _validate = (data: EducationalDetailsFormType) => {
     _afterValid(data);
+
+    if (localStorage.getItem("user") != "")
+      saveEducationalDetails(data, localStorage.getItem("user") || "");
   };
 
   const addNewEduForm = () => {
     append({
+      docId: "",
       school: "",
       degree: "",
       startDate: new Date(),
@@ -65,7 +103,7 @@ const EducationalDetails: NextPage<PropType> = ({
     });
   };
 
-  const onSubmit = (data: FormInputs) => _validate(data);
+  const onSubmit = (data: EducationalDetailsFormType) => _validate(data);
 
   if (currentStep == 3) {
     return (
@@ -135,7 +173,6 @@ const EducationalDetails: NextPage<PropType> = ({
                   type="checkbox"
                   {...register(`edu.${index}.crntSchool` as const)}
                   className="text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 me-4 p-1.5"
-                  required
                 />
                 <label htmlFor="crntSchool" className="text-[20px]">
                   I currently attend here
@@ -150,6 +187,10 @@ const EducationalDetails: NextPage<PropType> = ({
                   rows={5}
                   className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 ></textarea>
+                <input
+                  type="hidden"
+                  {...register(`edu.${index}.docId` as const)}
+                />
               </div>
             );
           })}

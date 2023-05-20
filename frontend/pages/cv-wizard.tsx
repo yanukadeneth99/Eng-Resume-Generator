@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "@/components/Header";
@@ -12,11 +12,21 @@ import { Viewer, Worker } from "@react-pdf-viewer/core";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { useAuth } from "@/context/AuthContext";
 
 const CvWizard: NextPage = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [data, setData] = useState({});
+  const { isAuthenticated, checkAuthenticated } = useAuth();
+
+  useEffect(() => {
+    checkAuthenticated();
+
+    if (!isAuthenticated) {
+      router.push("/");
+    }
+  }, [checkAuthenticated]);
 
   let _next = (fData: any) => {
     if (currentStep >= 3) {

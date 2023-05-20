@@ -1,6 +1,10 @@
 import { useAuth } from "@/context/AuthContext";
-import { savePersonalDetails } from "@/lib/personal-service";
+import {
+  getPersonalDetails,
+  saveorUpdatePersonalDetails,
+} from "@/lib/personal-service";
 import { NextPage } from "next";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface PropType {
@@ -22,6 +26,7 @@ export interface PersonalDetailsType {
   email: string;
   address: string;
   abtYourself: string;
+  docId: string;
 }
 
 const PersonalDetails: NextPage<PropType> = ({
@@ -29,31 +34,44 @@ const PersonalDetails: NextPage<PropType> = ({
   _prev,
   _afterValid,
 }) => {
-  const { register, handleSubmit } = useForm<PersonalDetailsType>({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      profession: "",
-      phone: "",
-      nic: "",
-      gender: "",
-      nationality: "",
-      marital_status: "",
-      dob: new Date(),
-      email: "",
-      address: "",
-      abtYourself: "",
-    },
-  });
+  const { register, handleSubmit, reset } = useForm<PersonalDetailsType>();
 
-  const { user } = useAuth();
+  useEffect(() => {
+    if (localStorage.getItem("user") != "") {
+      let getData = async () => {
+        let res = await getPersonalDetails(localStorage.getItem("user") || "");
 
-  const _validate = (data: PersonalDetailsType, user: string) => {
+        if (res.data != null && res.data.length != 0) {
+          let data = res.data[0];
+          reset({
+            docId: data.id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            profession: data.profession,
+            phone: data.phone,
+            nic: data.nic,
+            gender: data.gender,
+            nationality: data.nationality,
+            marital_status: data.marital_status,
+            dob: data.dob,
+            email: data.user,
+            address: data.address,
+            abtYourself: data.description,
+          });
+        }
+      };
+
+      getData();
+    }
+  }, [getPersonalDetails]);
+
+  const _validate = (data: PersonalDetailsType) => {
     _afterValid({ personalDetails: data });
-    savePersonalDetails(data, user);
+    if (localStorage.getItem("user") != "")
+      saveorUpdatePersonalDetails(data, localStorage.getItem("user") || "");
   };
 
-  const onSubmit = (data: PersonalDetailsType) => _validate(data, user);
+  const onSubmit = (data: PersonalDetailsType) => _validate(data);
 
   if (currentStep == 1) {
     return (
@@ -202,6 +220,7 @@ const PersonalDetails: NextPage<PropType> = ({
             rows={5}
             className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
           ></textarea>
+          <input type="hidden" {...register("docId")} />
           <button
             type="submit"
             className="bg-primary border-2 px-12 uppercase relative float-right border-primary text-white rounded-full w-fit py-2 "

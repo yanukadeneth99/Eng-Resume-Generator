@@ -1,5 +1,6 @@
+import { getSkills, saveSkills } from "@/lib/skills-service";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlusCircle, FaTrash } from "react-icons/fa";
 
@@ -9,22 +10,19 @@ interface PropType {
   _afterValid: (data: any) => void;
 }
 
-type FormInputs = {
+export type SkillsFormType = {
   skills: {
+    docId: string;
     skill: string;
   }[];
 };
 
 const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInputs>({
+  const { register, control, handleSubmit, reset } = useForm<SkillsFormType>({
     defaultValues: {
       skills: [
         {
+          docId: "",
           skill: "",
         },
       ],
@@ -37,17 +35,42 @@ const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
     control,
   });
 
-  const _validate = (data: FormInputs) => {
+  useEffect(() => {
+    let getData = async () => {
+      if (localStorage.getItem("user") != "") {
+        let res = await getSkills(localStorage.getItem("user") || "");
+
+        if (res.data != null) {
+          reset({
+            skills: res.data.map((v: any) => {
+              return {
+                docId: v.id,
+                skill: v.skill,
+              };
+            }),
+          });
+        }
+      }
+    };
+
+    getData();
+  }, [getSkills]);
+
+  const _validate = (data: SkillsFormType) => {
     _afterValid(data);
+
+    if (localStorage.getItem("user") != "")
+      saveSkills(data, localStorage.getItem("user") || "");
   };
 
   const addSkillInput = () => {
     append({
+      docId: "",
       skill: "",
     });
   };
 
-  const onSubmit = (data: FormInputs) => _validate(data);
+  const onSubmit = (data: SkillsFormType) => _validate(data);
 
   if (currentStep == 4) {
     return (
@@ -78,6 +101,10 @@ const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
                   required
                 />
                 <br />
+                <input
+                  type="hidden"
+                  {...register(`skills.${index}.docId` as const)}
+                />
               </div>
             );
           })}
