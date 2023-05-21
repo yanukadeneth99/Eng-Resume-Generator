@@ -7,7 +7,7 @@ export function saveorUpdatePersonalDetails(
 ) {
   if (data.docId == "") {
     axios
-      .post("http://localhost:8000/personal-details/", {
+      .post(`${process.env.NEXT_PUBLIC_SERVER_APP}personal-details/`, {
         dob: data.dob,
         address: data.address,
         phone: data.phone,
@@ -26,7 +26,7 @@ export function saveorUpdatePersonalDetails(
       .catch((err) => console.log(err.message));
   } else {
     axios
-      .put("http://localhost:8000/personal-details/", {
+      .put(`${process.env.NEXT_PUBLIC_SERVER_APP}personal-details/`, {
         docId: data.docId,
         dob: data.dob,
         address: data.address,
@@ -48,5 +48,7 @@ export function saveorUpdatePersonalDetails(
 }
 
 export function getPersonalDetails(user: string) {
-  return axios.get(`http://localhost:8000/personal-details/by-user/${user}`);
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_SERVER_APP}personal-details/by-user/${user}`
+  );
 }

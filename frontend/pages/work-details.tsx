@@ -84,7 +84,7 @@ const WorkDetails: NextPage<PropType> = ({
     };
 
     getData();
-  }, [getWorkDetails]);
+  }, [reset]);
 
   const _validate = (data: WorkDetailsFormType) => {
     _afterValid(data);
@@ -134,16 +134,32 @@ const WorkDetails: NextPage<PropType> = ({
                 </div>
 
                 <label className="text-[20px]">Job Title</label>
+                {errors?.workExp?.[index]?.jobTitle ? (
+                  <p className="text-[red]">Invalid job title</p>
+                ) : (
+                  ""
+                )}
                 <input
                   type="text"
-                  {...register(`workExp.${index}.jobTitle` as const)}
+                  {...register(`workExp.${index}.jobTitle` as const, {
+                    pattern: /^[A-Za-z ]+$/i,
+                  })}
                   className="w-full text-[20px] border-primarෆy opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 />
                 <br />
                 <label className="text-[20px]">Employer</label>
+                {/* errors?.workExp?.[index]?.employer ? (
+                  <p className="text-[red]">Invalid employer</p>
+                ) : (
+                  ""
+                ) */}
                 <input
                   type="text"
-                  {...register(`workExp.${index}.employer` as const)}
+                  {...register(
+                    `workExp.${index}.employer` as const /* , {
+                    pattern: /^[A-Za-z0-9\s]+$/i,
+                  } */
+                  )}
                   className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                   required
                 />
@@ -174,9 +190,13 @@ const WorkDetails: NextPage<PropType> = ({
                       className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                       required
                     />
-                    {errors.workExp?.[index]?.endDate
-                      ? "End date must be after start date."
-                      : ""}
+                    {errors.workExp?.[index]?.endDate ? (
+                      <p className="text-[red]">
+                        End date must be after start date.
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <input
@@ -187,8 +207,15 @@ const WorkDetails: NextPage<PropType> = ({
                 <label className="text-[20px]">I currently work here</label>
                 <br />
                 <label className="text-[20px]">Remarks</label>
+                {errors.workExp?.[index]?.remarks ? (
+                  <p className="text-[red]">Invalid remarks.</p>
+                ) : (
+                  ""
+                )}
                 <textarea
-                  {...register(`workExp.${index}.remarks` as const)}
+                  {...register(`workExp.${index}.remarks` as const, {
+                    pattern: /^[A-Za-z0-9\s\/\\@,\.\-]+$/i,
+                  })}
                   cols={20}
                   rows={5}
                   className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"

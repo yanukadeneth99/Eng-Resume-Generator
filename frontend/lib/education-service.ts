@@ -10,7 +10,7 @@ export function saveEducationalDetails(
   data.edu.forEach((v) => {
     if (v.docId == "") {
       promises.push(
-        axios.post("http://localhost:8000/edu-details/", {
+        axios.post(`${process.env.NEXT_PUBLIC_SERVER_APP}edu-details/`, {
           user,
           institute: v.school,
           period: `${v.startDate} / ${v.endDate}`,
@@ -20,7 +20,7 @@ export function saveEducationalDetails(
       );
     } else {
       promises.push(
-        axios.put("http://localhost:8000/edu-details/", {
+        axios.put(`${process.env.NEXT_PUBLIC_SERVER_APP}edu-details/`, {
           docId: v.docId,
           user,
           institute: v.school,
@@ -46,9 +46,13 @@ export function saveEducationalDetails(
 }
 
 export function getEducationalDetails(user: string) {
-  return axios.get(`http://localhost:8000/edu-details/by-user/${user}`);
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_SERVER_APP}edu-details/by-user/${user}`
+  );
 }
 
 export function deleteEducationalDetails(docId: string) {
-  return axios.delete(`http://localhost:8000/edu-details/by-doc/${docId}`);
+  return axios.delete(
+    `${process.env.NEXT_PUBLIC_SERVER_APP}edu-details/by-doc/${docId}`
+  );
 }
