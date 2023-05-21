@@ -7,14 +7,14 @@ export function saveSkills(data: SkillsFormType, user: string) {
   data.skills.forEach((v) => {
     if (v.docId == "") {
       promises.push(
-        axios.post("http://localhost:8000/skill-details/", {
+        axios.post(`${process.env.NEXT_PUBLIC_SERVER_APP}/skill-details/`, {
           user,
           skill: v.skill,
         })
       );
     } else {
       promises.push(
-        axios.put("http://localhost:8000/skill-details/", {
+        axios.put(`${process.env.NEXT_PUBLIC_SERVER_APP}/skill-details/`, {
           docId: v.docId,
           user,
           skill: v.skill,
@@ -37,9 +37,13 @@ export function saveSkills(data: SkillsFormType, user: string) {
 }
 
 export function getSkills(user: string) {
-  return axios.get(`http://localhost:8000/skill-details/by-user/${user}`);
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_SERVER_APP}/skill-details/by-user/${user}`
+  );
 }
 
 export function deleteSkill(docId: string) {
-  return axios.delete(`http://localhost:8000/skill-details/by-doc/${docId}`);
+  return axios.delete(
+    `${process.env.NEXT_PUBLIC_SERVER_APP}/skill-details/by-doc/${docId}`
+  );
 }

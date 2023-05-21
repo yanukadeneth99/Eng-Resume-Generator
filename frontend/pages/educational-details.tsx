@@ -225,7 +225,7 @@ const EducationalDetails: NextPage<PropType> = ({
                 )}
                 <textarea
                   {...register(`edu.${index}.remarks` as const, {
-                    pattern: /^[A-Za-z0-9\s\/\\@,\.\-]+$/i,
+                    pattern: /^[a-zA-Z0-9@\/,.\(\):;\s]+$/i,
                   })}
                   cols={20}
                   rows={5}

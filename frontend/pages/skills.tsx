@@ -18,7 +18,13 @@ export type SkillsFormType = {
 };
 
 const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
-  const { register, control, handleSubmit, reset } = useForm<SkillsFormType>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<SkillsFormType>({
     defaultValues: {
       skills: [
         {
@@ -99,9 +105,16 @@ const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
                 <label htmlFor="skill" className="text-[20px]">
                   Skill
                 </label>
+                {errors?.skills?.[index]?.skill ? (
+                  <p className="text-[red]">Invalid skill</p>
+                ) : (
+                  ""
+                )}
                 <input
                   type="text"
-                  {...register(`skills.${index}.skill` as const)}
+                  {...register(`skills.${index}.skill` as const, {
+                    pattern: /^[a-zA-Z\s]+$/,
+                  })}
                   className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                   required
                 />
