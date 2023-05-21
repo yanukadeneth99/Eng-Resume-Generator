@@ -136,9 +136,16 @@ const EducationalDetails: NextPage<PropType> = ({
                 <label htmlFor="school" className="text-[20px]">
                   School Name
                 </label>
+                {errors.edu?.[index]?.school ? (
+                  <p className="text-[red]">Invalid school/institute name</p>
+                ) : (
+                  ""
+                )}
                 <input
                   type="text"
-                  {...register(`edu.${index}.school` as const)}
+                  {...register(`edu.${index}.school` as const, {
+                    pattern: /^[A-Za-z\s/'",.-]+$/i,
+                  })}
                   className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                   required
                 />
@@ -146,9 +153,16 @@ const EducationalDetails: NextPage<PropType> = ({
                 <label htmlFor="degree" className="text-[20px]">
                   Degree
                 </label>
+                {errors.edu?.[index]?.degree ? (
+                  <p className="text-[red]">Invalid degree name</p>
+                ) : (
+                  ""
+                )}
                 <input
                   type="text"
-                  {...register(`edu.${index}.degree` as const)}
+                  {...register(`edu.${index}.degree` as const, {
+                    pattern: /^[A-Za-z\s/'",.-]+$/i,
+                  })}
                   className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                   required
                 />
@@ -183,9 +197,13 @@ const EducationalDetails: NextPage<PropType> = ({
                       className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                       required
                     />
-                    {errors.edu?.[index]?.endDate
-                      ? "End date must be after start date."
-                      : ""}
+                    {errors.edu?.[index]?.endDate ? (
+                      <p className="text-[red]">
+                        End date must be after start date
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <input
@@ -200,8 +218,15 @@ const EducationalDetails: NextPage<PropType> = ({
                 <label htmlFor="remarks" className="text-[20px]">
                   Remarks
                 </label>
+                {errors.edu?.[index]?.remarks ? (
+                  <p className="text-[red]">Invalid remarks.</p>
+                ) : (
+                  ""
+                )}
                 <textarea
-                  {...register(`edu.${index}.remarks` as const)}
+                  {...register(`edu.${index}.remarks` as const, {
+                    pattern: /^[A-Za-z0-9\s\/\\@,\.\-]+$/i,
+                  })}
                   cols={20}
                   rows={5}
                   className="w-full border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
