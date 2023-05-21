@@ -100,7 +100,7 @@ const CvWizard: NextPage = () => {
               </div>
               <div className="overflow-auto h-full">
                 <a
-                  href={`${process.env.NEXT_PUBLIC_SERVER_APP}/pdf/generate/${user}/${_time}`}
+                  href={`${process.env.NEXT_PUBLIC_SERVER_APP}pdf/generate/${user}/${_time}`}
                 >
                   <FaDownload className="bg-primary border-2 z-50 absolute right-[-50px] top-0 cursor-pointer border-primary text-[45px] text-[white] rounded-full w-fit py-2" />
                 </a>
@@ -119,7 +119,7 @@ const CvWizard: NextPage = () => {
                       }}
                     >
                       <Viewer
-                        fileUrl={`${process.env.NEXT_PUBLIC_SERVER_APP}/pdf/generate/${user}/${_time}`}
+                        fileUrl={`${process.env.NEXT_PUBLIC_SERVER_APP}pdf/generate/${user}/${_time}`}
                       />
                     </div>
                   </Worker>

@@ -7,7 +7,7 @@ export function saveWorkDetails(data: WorkDetailsFormType, user: string) {
   data.workExp.forEach((v) => {
     if (v.docId == "") {
       promises.push(
-        axios.post(`${process.env.NEXT_PUBLIC_SERVER_APP}/work-details/`, {
+        axios.post(`${process.env.NEXT_PUBLIC_SERVER_APP}work-details/`, {
           user,
           company: v.employer,
           period: `${v.startDate} / ${v.endDate}`,
@@ -17,7 +17,7 @@ export function saveWorkDetails(data: WorkDetailsFormType, user: string) {
       );
     } else {
       promises.push(
-        axios.put(`${process.env.NEXT_PUBLIC_SERVER_APP}/work-details/`, {
+        axios.put(`${process.env.NEXT_PUBLIC_SERVER_APP}work-details/`, {
           docId: v.docId,
           user,
           company: v.employer,
@@ -44,12 +44,12 @@ export function saveWorkDetails(data: WorkDetailsFormType, user: string) {
 
 export function getWorkDetails(user: string) {
   return axios.get(
-    `${process.env.NEXT_PUBLIC_SERVER_APP}/work-details/by-user/${user}`
+    `${process.env.NEXT_PUBLIC_SERVER_APP}work-details/by-user/${user}`
   );
 }
 
 export function deleteWorkDetail(docId: string) {
   return axios.delete(
-    `${process.env.NEXT_PUBLIC_SERVER_APP}/work-details/by-doc/${docId}`
+    `${process.env.NEXT_PUBLIC_SERVER_APP}work-details/by-doc/${docId}`
   );
 }
