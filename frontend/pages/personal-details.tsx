@@ -34,7 +34,12 @@ const PersonalDetails: NextPage<PropType> = ({
   _prev,
   _afterValid,
 }) => {
-  const { register, handleSubmit, reset } = useForm<PersonalDetailsType>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<PersonalDetailsType>();
 
   useEffect(() => {
     if (localStorage.getItem("user") != "") {
@@ -86,10 +91,15 @@ const PersonalDetails: NextPage<PropType> = ({
                 First Name
               </label>
               <br />
+              {errors?.firstName ? (
+                <p className="text-[red]">Invalid first name</p>
+              ) : (
+                ""
+              )}
               <input
                 type="text"
                 id="firstName"
-                {...register("firstName")}
+                {...register("firstName", { pattern: /^[A-Za-z ]+$/i })}
                 className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 required
               />
@@ -99,9 +109,14 @@ const PersonalDetails: NextPage<PropType> = ({
                 Last Name
               </label>
               <br />
+              {errors?.lastName ? (
+                <p className="text-[red]">Invalid last name</p>
+              ) : (
+                ""
+              )}
               <input
                 type="text"
-                {...register("lastName")}
+                {...register("lastName", { pattern: /^[A-Za-z ]+$/i })}
                 id="lastName"
                 className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
                 required
@@ -111,9 +126,14 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="profession" className="text-[20px]">
             Profession
           </label>
+          {errors?.profession ? (
+            <p className="text-[red]">Invalid profession</p>
+          ) : (
+            ""
+          )}
           <input
             type="text"
-            {...register("profession")}
+            {...register("profession", { pattern: /^[A-Za-z ]+$/i })}
             id="profession"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -133,9 +153,14 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="nationality" className="text-[20px]">
             Nationality
           </label>
+          {errors?.nationality ? (
+            <p className="text-[red]">Invalid nationality</p>
+          ) : (
+            ""
+          )}
           <input
             type="text"
-            {...register("nationality")}
+            {...register("nationality", { pattern: /^[A-Za-z ]+$/i })}
             id="nationality"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -144,9 +169,18 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="dob" className="text-[20px]">
             Date of Birth
           </label>
+          {errors?.dob ? (
+            <p className="text-[red]">Invalid date of birth</p>
+          ) : (
+            ""
+          )}
           <input
             type="date"
-            {...register("dob")}
+            {...register("dob", {
+              validate: (dob) => {
+                return new Date(dob).getTime() < new Date().getTime();
+              },
+            })}
             id="dob"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -180,9 +214,14 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="phone" className="text-[20px]">
             Phone
           </label>
+          {errors?.phone ? (
+            <p className="text-[red]">Invalid phone number</p>
+          ) : (
+            ""
+          )}
           <input
             type="text"
-            {...register("phone")}
+            {...register("phone", { pattern: /^\d{9,11}$/ })}
             id="phone"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -191,9 +230,16 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="email" className="text-[20px]">
             Email
           </label>
+          {errors?.email ? (
+            <p className="text-[red]">Invalid email address</p>
+          ) : (
+            ""
+          )}
           <input
-            type="email"
-            {...register("email")}
+            type="text"
+            {...register("email", {
+              pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+            })}
             id="email"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -202,9 +248,12 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="address" className="text-[20px]">
             Address
           </label>
+          {errors?.address ? <p className="text-[red]">Invalid address</p> : ""}
           <input
             type="text"
-            {...register("address")}
+            {...register("address", {
+              pattern: /^[A-Za-z0-9\s\/,.-]+$/,
+            })}
             id="address"
             className="w-full text-[20px] border-primary opacity-50 border-[1px] bg-[rgb(0,91,206,5%)] rounded-md mb-6 p-1.5"
             required
@@ -213,8 +262,15 @@ const PersonalDetails: NextPage<PropType> = ({
           <label htmlFor="abtYourself" className="text-[20px]">
             About yourself
           </label>
+          {errors?.abtYourself ? (
+            <p className="text-[red]">Invalid self description</p>
+          ) : (
+            ""
+          )}
           <textarea
-            {...register("abtYourself")}
+            {...register("abtYourself", {
+              pattern: /^[A-Za-z0-9\s\/\\@,\.\-]+$/i,
+            })}
             id="abtYourself"
             cols={20}
             rows={5}
