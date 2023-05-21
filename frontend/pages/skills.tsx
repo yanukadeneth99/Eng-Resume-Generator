@@ -60,7 +60,7 @@ const Skills: NextPage<PropType> = ({ currentStep, _prev, _afterValid }) => {
     };
 
     getData();
-  }, [getSkills]);
+  }, [reset]);
 
   const _validate = (data: SkillsFormType) => {
     _afterValid(data);

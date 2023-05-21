@@ -83,7 +83,7 @@ const EducationalDetails: NextPage<PropType> = ({
 
       getData();
     }
-  }, [getEducationalDetails]);
+  }, [reset]);
 
   const { fields, append, remove } = useFieldArray({
     name: "edu",

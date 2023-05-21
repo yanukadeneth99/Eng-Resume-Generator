@@ -68,7 +68,7 @@ const PersonalDetails: NextPage<PropType> = ({
 
       getData();
     }
-  }, [getPersonalDetails]);
+  }, [reset]);
 
   const _validate = (data: PersonalDetailsType) => {
     _afterValid({ personalDetails: data });

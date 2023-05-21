@@ -84,7 +84,7 @@ const WorkDetails: NextPage<PropType> = ({
     };
 
     getData();
-  }, [getWorkDetails]);
+  }, [reset]);
 
   const _validate = (data: WorkDetailsFormType) => {
     _afterValid(data);
