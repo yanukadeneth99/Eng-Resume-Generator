@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "@/components/Header";
@@ -16,6 +16,7 @@ import { useAuth } from "@/context/AuthContext";
 import { RxReload } from "react-icons/rx";
 import { FaDownload } from "react-icons/fa";
 import PermissionError from "@/components/PermissionError";
+import { generatePdf } from "@/lib/pdf-service";
 
 const getFormattedDate = () => {
   let date = new Date();
@@ -29,10 +30,17 @@ const CvWizard: NextPage = () => {
   const [data, setData] = useState({});
   const { isAuthenticated, checkAuthenticated } = useAuth();
   const [user, setUser] = useState("");
+  const [file, setFile] = useState("");
   const [_time, _setTime] = useState(getFormattedDate());
+  const initPdf = useRef(false);
 
   useEffect(() => {
     checkAuthenticated();
+
+    if (!initPdf.current && user != "") {
+      generatePdf(user, setFile);
+      initPdf.current = true;
+    }
 
     setUser(localStorage.getItem("user") || "");
   }, [checkAuthenticated]);
@@ -99,18 +107,19 @@ const CvWizard: NextPage = () => {
                 </div>
               </div>
               <div className="overflow-auto h-full">
-                <a
-                  href={`${process.env.NEXT_PUBLIC_SERVER_APP}pdf/generate/${user}/${_time}`}
-                >
+                <a href={`${file}`}>
                   <FaDownload className="bg-primary border-2 z-50 absolute right-[-50px] top-0 cursor-pointer border-primary text-[45px] text-[white] rounded-full w-fit py-2" />
                 </a>
 
                 <RxReload
                   className="bg-primary border-2 z-50 absolute right-[-50px] top-[60px] cursor-pointer border-primary text-[45px] text-[white] rounded-full w-fit py-2"
-                  onClick={() => _setTime(getFormattedDate())}
+                  onClick={() => {
+                    _setTime(getFormattedDate());
+                    generatePdf(user, setFile);
+                  }}
                 />
 
-                {_time ? (
+                {file != "" ? (
                   <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.js">
                     <div
                       style={{
@@ -118,9 +127,7 @@ const CvWizard: NextPage = () => {
                         marginRight: "auto",
                       }}
                     >
-                      <Viewer
-                        fileUrl={`${process.env.NEXT_PUBLIC_SERVER_APP}pdf/generate/${user}/${_time}`}
-                      />
+                      <Viewer fileUrl={`${file}`} />
                     </div>
                   </Worker>
                 ) : (
